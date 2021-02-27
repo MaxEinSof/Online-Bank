@@ -7,10 +7,13 @@
                 <router-link to="/">Заявки</router-link>
             </li>
             <li>
-                <router-link to="/">Помощь</router-link>
+                <router-link to="/help">Помощь</router-link>
             </li>
             <li>
-                <a href="#">Сообщения</a>
+                <a
+                    href="#"
+                    @click.prevent="open"
+                >Сообщения</a>
             </li>
             <li>
                 <a
@@ -23,20 +26,24 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
     setup() {
         const store = useStore();
         const router = useRouter();
 
-        return {
-            logout: () => {
-                store.commit('auth/logout');
-                router.push('/auth');
-            },
+        function open() {
+            store.commit('openSidebar');
         }
+
+        function logout() {
+            store.commit('auth/logout');
+            router.push('/auth');
+        }
+
+        return {open, logout}
     },
 }
 </script>

@@ -44,22 +44,24 @@
 </template>
 
 <script>
-import { useLoginValidation } from "@/use/login-validation";
-
-// import { useForm } from "vee-validate";
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { useLoginValidation } from '@/use/login-validation';
+import getErrorMessage from '@/utils/get-error-message';
 
 export default {
     setup() {
-        // const { handleSubmit } = useForm();
-        //
-        // const onTestSubmit = handleSubmit(values => {
-        //     console.log('Form values from component:', values);
-        // });
+        const route = useRoute();
+        const store = useStore();
 
-        return {
-            ...useLoginValidation(),
-            // onTestSubmit
+        if (route.query.message) {
+            store.dispatch('setMessage', {
+                type: 'warning',
+                value: getErrorMessage(route.query.message),
+            });
         }
+
+        return useLoginValidation();
     },
 }
 </script>
